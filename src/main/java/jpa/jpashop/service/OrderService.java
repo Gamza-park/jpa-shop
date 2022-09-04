@@ -5,11 +5,8 @@ import jpa.jpashop.repository.ItemRepository;
 import jpa.jpashop.repository.MemberRepository;
 import jpa.jpashop.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

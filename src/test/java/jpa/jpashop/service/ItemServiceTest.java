@@ -1,10 +1,8 @@
 package jpa.jpashop.service;
 
 import jpa.jpashop.domain.Item;
-import jpa.jpashop.domain.Member;
 import jpa.jpashop.domain.item.Book;
 import jpa.jpashop.repository.ItemRepository;
-import jpa.jpashop.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
