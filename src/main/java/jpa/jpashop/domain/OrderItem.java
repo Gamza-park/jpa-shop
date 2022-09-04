@@ -23,4 +23,26 @@ public class OrderItem {
 
     private int orderPrice;
     private int count;
+
+    // == Create Logic == //
+    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
+        OrderItem orderItem = new OrderItem();
+
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(orderPrice);
+        orderItem.setCount(count);
+
+        item.removeStock(count);
+
+        return orderItem;
+    }
+
+    // == Business Login == //
+    public void cancle() {
+        getItem().addStock(count);
+    }
+
+    public int getTotalPrice(){
+        return getCount() * getOrderPrice();
+    }
 }
