@@ -1,5 +1,6 @@
 package jpa.jpashop.repository;
 
+import jpa.jpashop.domain.Member;
 import jpa.jpashop.domain.Order;
 import jpa.jpashop.domain.OrderSearch;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +31,10 @@ public class OrderRepository {
      * String
      */
     public List<Order> findAllByString(OrderSearch orderSearch) {
-        String jpql = "select o from Order o join o.member m";
+        //language=JPAQL
+        String jpql = "select o From Order o join o.member m";
         boolean isFirstCondition = true;
-
-        // Order Status Search
+        // Check Order Status
         if (orderSearch.getOrderStatus() != null) {
             if (isFirstCondition) {
                 jpql += " where";
@@ -43,28 +44,24 @@ public class OrderRepository {
             }
             jpql += " o.status = :status";
         }
-
-        // Member Name Search
-        if(StringUtils.hasText(orderSearch.getMemberName())) {
-            if(isFirstCondition) {
+        // Check Member Name
+        if (StringUtils.hasText(orderSearch.getMemberName())) {
+            if (isFirstCondition) {
                 jpql += " where";
                 isFirstCondition = false;
-            } else{
+            } else {
                 jpql += " and";
             }
             jpql += " m.name like :name";
         }
 
-        TypedQuery<Order> query = em.createQuery(jpql, Order.class)
-                .setMaxResults(1000);
-
-        if(orderSearch.getOrderStatus() != null) {
+        TypedQuery<Order> query = em.createQuery(jpql, Order.class) .setMaxResults(1000); // Max 1000
+        if (orderSearch.getOrderStatus() != null) {
             query = query.setParameter("status", orderSearch.getOrderStatus());
         }
-        if(StringUtils.hasText(orderSearch.getMemberName())) {
+        if (StringUtils.hasText(orderSearch.getMemberName())) {
             query = query.setParameter("name", orderSearch.getMemberName());
         }
-
         return query.getResultList();
     }
 
@@ -75,25 +72,23 @@ public class OrderRepository {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Order> cq = cb.createQuery(Order.class);
         Root<Order> o = cq.from(Order.class);
-        Join<Object, Object> m = o.join("member", JoinType.INNER);
-
+        Join<Order, Member> m = o.join("member", JoinType.INNER); // Member Join
         List<Predicate> criteria = new ArrayList<>();
-
-        // Order Detail Search
-        if(orderSearch.getOrderStatus() != null) {
-            Predicate status = cb.equal(o.get("status"), orderSearch.getOrderStatus());
+        // Check Order Status
+        if (orderSearch.getOrderStatus() != null) {
+            Predicate status = cb.equal(o.get("status"),
+                    orderSearch.getOrderStatus());
             criteria.add(status);
         }
-
-        // Member Name Search
-        if(StringUtils.hasText(orderSearch.getMemberName())){
-            Predicate name = cb.like(m.<String>get("name"), "%" + orderSearch.getMemberName() + "%");
+        // Check Member name
+        if (StringUtils.hasText(orderSearch.getMemberName())) {
+            Predicate name =
+                    cb.like(m.<String>get("name"), "%" +
+                            orderSearch.getMemberName() + "%");
             criteria.add(name);
         }
-
         cq.where(cb.and(criteria.toArray(new Predicate[criteria.size()])));
-        TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000);
+        TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000); // MAx 1000
         return query.getResultList();
-
     }
 }
