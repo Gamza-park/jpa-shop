@@ -14,7 +14,8 @@ Used : Java/Spring, H2, JPA, Thymleaf
  4. `cd build/libs`
  5. `java -jar jpashop-*.*.*-SNAPSHOT.jar`
  
-
+## Domain Entity
+![Screen Shot 2022-09-14 at 0 09 37](https://user-images.githubusercontent.com/64882796/189938629-b47d8114-8648-4372-8a50-a33aa2186f45.png)
 
 ## View Image
 ![home](https://user-images.githubusercontent.com/64882796/189930708-7d449989-14ff-4237-8cb5-11cee455b868.png)
